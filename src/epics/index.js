@@ -1,17 +1,16 @@
 import {Observable} from "rxjs";
 import {combineEpics} from "redux-observable";
-import {clear, LOAD_STORIES} from "../actions/index";
+import {FETCH_USER, fetchUserFulfilledAction} from "../actions";
 
-// receives a stream of actions, 
-// returns a stream of actions that we want redux observable to dispatch 
-// into the redux store on our behalf
-const loadStoriesEpic = (action$) => {
-    // filter only LOAD_STORIES actions, which after two seconds, trigger a clear action
-    return action$.ofType(LOAD_STORIES)    
-    .switchMap(() => {
-        return Observable.of(clear()).delay(2000);
-    });
+const fetchUserEpic = (action$) => {
+    return action$.ofType(FETCH_USER)
+        .switchMap(({payload}) => {
+            const apiRequestURL = `https://api.github.com/users/${payload}`;
+            return Observable.ajax.getJSON(apiRequestURL)
+                .map(user => {
+                    return fetchUserFulfilledAction(user);
+                });
+        });
 };
 
-// combineEpics allows to register multiple functions
-export const rootEpic = combineEpics(loadStoriesEpic);
+export const rootEpic = combineEpics(fetchUserEpic);

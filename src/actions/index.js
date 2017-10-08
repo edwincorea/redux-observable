@@ -1,14 +1,17 @@
-export const LOAD_STORIES = "LOAD_STORIES";
-export const CLEAR_STORIES = "CLEAR_STORIES";
+export const FETCH_USER = "FETCH_USER";
+export const FETCH_USER_FULFILLED = "FETCH_USER_FULFILLED";
 
-export const loadStories = () => {
+export const fetchUserAction = (login) => {
+    console.log(login);
     return {
-        type: LOAD_STORIES        
+        type: FETCH_USER,
+        payload: login
     };
 };
 
-export const clear = () => {
+export const fetchUserFulfilledAction = (user) => {
     return {
-        type: CLEAR_STORIES        
+        type: FETCH_USER_FULFILLED,
+        payload: user
     };
 };
