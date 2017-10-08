@@ -6,11 +6,6 @@ import {clear, LOAD_STORIES} from "../actions/index";
 // returns a stream of actions that we want redux observable to dispatch 
 // into the redux store on our behalf
 const loadStoriesEpic = (action$) => {
-    // return action$
-    //     .filter(action => action.type === LOAD_STORIES)
-    //     .do(action => console.log(action))
-    //     .ignoreElements();
-
     // filter only LOAD_STORIES actions, which after two seconds, trigger a clear action
     return action$.ofType(LOAD_STORIES)    
     .switchMap(() => {
